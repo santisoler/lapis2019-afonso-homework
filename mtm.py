@@ -50,7 +50,7 @@ for i in range(iterations):
     index = np.random.choice(n_trials, p=probabilities_y / probabilities_y.sum())
     y = y_trials[index]
 
-    # Generate the reference set (assigning the last element to the current x)
+    # Generate the reference set (assign the current x to the last element of the set)
     reference_set = y + sigma * np.random.randn(n_trials, 2)
     reference_set[-1] = x
     # Compute the generalized M-H ratio
