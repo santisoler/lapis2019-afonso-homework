@@ -1,3 +1,6 @@
+"""
+Perform a simple Multiple Try Metropolis algorithm
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 
