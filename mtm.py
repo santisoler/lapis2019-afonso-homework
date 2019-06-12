@@ -4,25 +4,6 @@ import matplotlib.pyplot as plt
 LAM = 12
 
 
-def target_pdf(x1, x2):
-    """
-    Compute target pdf
-
-    Parameters
-    ----------
-    x1: array
-        Horizontal coordinates of points where the PDF will be computed.
-    x2: array
-        Vertical coordinates of points where the PDF will be computed.
-
-    Returns
-    -------
-    target_pdf : array
-        Target pdf on each point.
-    """
-    return np.exp(-(x1 ** 2 + x2 ** 2 + (x1 * x2) ** 2) - 2 * LAM * x1 * x2 / 2)
-
-
 def likelihood(x):
     """
     Likelihood of x
@@ -75,13 +56,14 @@ for i in range(iterations):
     if rg > np.random.rand():
         data.append(y)
         x = y
+data = np.array(data)
 
 
 # Plot results and target PDF
-data = np.array(data)
 x1 = np.linspace(-4, 4, 101)
 x1, x2 = np.meshgrid(x1, x1)
-target = target_pdf(x1, x2)
+target = likelihood(np.hstack((x1[:, np.newaxis], x2[:, np.newaxis])))
+target = target.reshape(x1.shape)
 
 plt.contour(x1, x2, target)
 plt.scatter(data[:, 0], data[:, 1], s=1, label="Accepted points by MTM")
