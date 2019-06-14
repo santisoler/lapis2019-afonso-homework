@@ -84,16 +84,20 @@ x1, x2 = np.meshgrid(x1, x1)
 target = likelihood(np.hstack((x1[:, np.newaxis], x2[:, np.newaxis])))
 target = target.reshape(x1.shape)
 
-plt.contour(x1, x2, target)
+fig, axes = plt.subplots(nrows=1, ncols=n_chains)
+colors = ["C{}".format(i) for i in range(n_chains)]
 for chain in range(n_chains):
-    plt.scatter(
+    ax = axes[chain]
+    ax.contour(x1, x2, target)
+    ax.scatter(
         sampled_points[chain, :, 0],
         sampled_points[chain, :, 1],
         s=4,
         alpha=0.2,
-        label="T = {}".format(temperatures[chain]),
+        color=colors[chain],
     )
-plt.axes().set_aspect("equal")
-plt.grid()
-plt.legend()
+    ax.set_aspect("equal")
+    ax.grid()
+    ax.set_title("T = {}".format(temperatures[chain]))
+plt.tight_layout()
 plt.show()
