@@ -2,6 +2,7 @@
 Perform simple Parallel Tempering with two chains
 """
 import numpy as np
+import matplotlib.pyplot as plt
 
 LAM = 12
 
@@ -38,18 +39,18 @@ sigma = [0.1, 2]
 
 # Initialize chains
 n_chains = len(temperatures)
-x = np.zeros(n_chains, 2)
+x = np.zeros((n_chains, 2))
 probability = np.zeros(n_chains)
 for chain in range(n_chains):
     # Proposal
     x[chain, :] = sigma[chain] * np.random.randn(2) + np.array([5, 5])
     # Compute probability of the x vector on each chain
     probability[chain] = likelihood(x[chain, :])
-
+sampled_points = np.empty((n_chains, iterations, 2))
 
 # Perform Parallel Tempering
 # --------------------------
-for iteration in range(iterations):
+for i in range(iterations):
     # Decide whether to swap chains or not
     if probability_of_swap > np.random.rand():
         # Compute alpha
@@ -61,7 +62,7 @@ for iteration in range(iterations):
         # Decide if we should swap
         if alpha > np.random.rand():
             x[0, :], x[1, :] = x[1, :], x[0, :]
-            probability[0, :], probability[1, :] = probability[1, :], probability[0, :]
+            probability[0], probability[1] = probability[1], probability[0]
 
     # Perform MCMC
     for chain in range(n_chains):
@@ -70,6 +71,29 @@ for iteration in range(iterations):
         acceptance = min(
             1, (probability_trial / probability[chain]) ** (1 / temperatures[chain])
         )
-        if acceptance > np.rand.rand():
+        if acceptance > np.random.rand():
             x[chain, :] = x_trial
-            probability[chain, :] = probability_trial
+            probability[chain] = probability_trial
+        # Add sampled points to array
+        sampled_points[chain, i, :] = x[chain, :]
+
+
+# Plot results and target PDF
+x1 = np.linspace(-4, 4, 101)
+x1, x2 = np.meshgrid(x1, x1)
+target = likelihood(np.hstack((x1[:, np.newaxis], x2[:, np.newaxis])))
+target = target.reshape(x1.shape)
+
+plt.contour(x1, x2, target)
+for chain in range(n_chains):
+    plt.scatter(
+        sampled_points[chain, :, 0],
+        sampled_points[chain, :, 1],
+        s=4,
+        alpha=0.2,
+        label="T = {}".format(temperatures[chain]),
+    )
+plt.axes().set_aspect("equal")
+plt.grid()
+plt.legend()
+plt.show()
