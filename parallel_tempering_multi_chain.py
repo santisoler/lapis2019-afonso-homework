@@ -53,18 +53,18 @@ sampled_points = np.empty((n_chains, iterations, 2))
 for i in range(iterations):
     # Decide whether to swap chains or not
     if probability_of_swap > np.random.rand():
-        # Compute alpha for each pair of chains
-        for i in range(n_chains):
-            for j in range(i, n_chains):
-                alpha = min(
-                    1,
-                    (probability[j] / probability[i]) ** (1 / temperatures[i])
-                    * (probability[i] / probability[j]) ** (1 / temperatures[j]),
-                )
-                # Decide if we should swap chains i and j
-                if alpha > np.random.rand():
-                    x[i, :], x[j, :] = x[j, :], x[i, :]
-                    probability[i], probability[j] = probability[j], probability[i]
+        # Randomly choose two chains to attempt to swap
+        c_i, c_j = np.random.choice(n_chains, 2)
+        # Compute alpha between this pair of chains
+        alpha = min(
+            1,
+            (probability[c_j] / probability[c_i]) ** (1 / temperatures[c_i])
+            * (probability[c_i] / probability[c_j]) ** (1 / temperatures[c_j]),
+        )
+        # Decide if we should swap chains c_i and c_j
+        if alpha > np.random.rand():
+            x[c_i, :], x[c_j, :] = x[c_j, :], x[c_i, :]
+            probability[c_i], probability[c_j] = (probability[c_j], probability[c_i])
 
     # Perform MCMC
     for chain in range(n_chains):
@@ -86,20 +86,17 @@ x1, x2 = np.meshgrid(x1, x1)
 target = likelihood(np.hstack((x1[:, np.newaxis], x2[:, np.newaxis])))
 target = target.reshape(x1.shape)
 
-fig, axes = plt.subplots(nrows=1, ncols=n_chains)
-colors = ["C{}".format(i) for i in range(n_chains)]
-for chain in range(n_chains):
-    ax = axes[chain]
-    ax.contour(x1, x2, target)
-    ax.scatter(
+plt.contour(x1, x2, target)
+for chain in range(n_chains)[::-1]:
+    plt.scatter(
         sampled_points[chain, :, 0],
         sampled_points[chain, :, 1],
         s=4,
         alpha=0.2,
-        color=colors[chain],
+        label="T={}".format(temperatures[chain]),
     )
-    ax.set_aspect("equal")
-    ax.grid()
-    ax.set_title("T = {}".format(temperatures[chain]))
+plt.axes().set_aspect("equal")
+plt.grid()
+plt.legend()
 plt.tight_layout()
 plt.show()
