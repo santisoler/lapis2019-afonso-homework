@@ -34,7 +34,6 @@ def likelihood(x):
 iterations = int(10e3)
 temperatures = [1, 10]  # temperatures of the chains
 probability_of_swap = 0.5  # the probability to attempt a swap
-iterations_swap = 100  # attempt a swap after this number of iterations
 sigma = [0.1, 2]
 
 # Initialize chains
