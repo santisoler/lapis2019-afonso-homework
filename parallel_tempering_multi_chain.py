@@ -32,10 +32,10 @@ def likelihood(x):
 
 # Define parameters
 iterations = int(10e3)
-temperatures = [1, 2, 10]  # temperatures of the chains
+temperatures = np.arange(1, 11)  # temperatures of the chains
 probability_of_swap = 0.5  # the probability to attempt a swap
 iterations_swap = 10  # attempt a swap after this number of iterations
-sigma = [0.1, 1, 2]
+sigma = temperatures / 5
 
 # Initialize chains
 n_chains = len(temperatures)
@@ -44,7 +44,7 @@ probability = np.zeros(n_chains)
 sampled_points = np.empty((n_chains, iterations, 2))
 for chain in range(n_chains):
     # Proposal
-    x[chain, :] = sigma[chain] * np.random.randn(2) + np.array([5, 5])
+    x[chain, :] = np.array([5, 5]) + sigma[chain] * np.random.randn(2)
     # Compute probability of the x vector on each chain
     probability[chain] = likelihood(x[chain, :])
 
