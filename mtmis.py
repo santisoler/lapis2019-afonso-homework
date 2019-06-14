@@ -75,7 +75,11 @@ target = target.reshape(x1.shape)
 
 plt.contour(x1, x2, target)
 plt.scatter(
-    sampled_points[:, 0], sampled_points[:, 1], s=1, label="Accepted points by MTMIS"
+    sampled_points[:, 0],
+    sampled_points[:, 1],
+    s=4,
+    alpha=0.2,
+    label="Sampled points by MTMIS",
 )
 plt.axes().set_aspect("equal")
 plt.grid()
