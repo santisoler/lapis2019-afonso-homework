@@ -41,12 +41,13 @@ sigma = [0.1, 1, 2]
 n_chains = len(temperatures)
 x = np.zeros((n_chains, 2))
 probability = np.zeros(n_chains)
+sampled_points = np.empty((n_chains, iterations, 2))
 for chain in range(n_chains):
     # Proposal
     x[chain, :] = sigma[chain] * np.random.randn(2) + np.array([5, 5])
     # Compute probability of the x vector on each chain
     probability[chain] = likelihood(x[chain, :])
-sampled_points = np.empty((n_chains, iterations, 2))
+
 
 # Perform Parallel Tempering
 # --------------------------
