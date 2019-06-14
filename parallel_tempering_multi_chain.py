@@ -50,21 +50,21 @@ sampled_points = np.empty((n_chains, iterations, 2))
 
 # Perform Parallel Tempering
 # --------------------------
-for i in range(iterations):
+for iteration in range(iterations):
     # Decide whether to swap chains or not
     if probability_of_swap > np.random.rand():
         # Randomly choose two chains to attempt to swap
-        c_i, c_j = np.random.choice(n_chains, 2)
+        i, j = np.random.choice(n_chains, 2)
         # Compute alpha between this pair of chains
         alpha = min(
             1,
-            (probability[c_j] / probability[c_i]) ** (1 / temperatures[c_i])
-            * (probability[c_i] / probability[c_j]) ** (1 / temperatures[c_j]),
+            (probability[j] / probability[i]) ** (1 / temperatures[i])
+            * (probability[i] / probability[j]) ** (1 / temperatures[j]),
         )
-        # Decide if we should swap chains c_i and c_j
+        # Decide if we should swap chains i and j
         if alpha > np.random.rand():
-            x[c_i, :], x[c_j, :] = x[c_j, :], x[c_i, :]
-            probability[c_i], probability[c_j] = (probability[c_j], probability[c_i])
+            x[i, :], x[j, :] = x[j, :], x[i, :]
+            probability[i], probability[j] = (probability[j], probability[i])
 
     # Perform MCMC
     for chain in range(n_chains):
@@ -77,7 +77,7 @@ for i in range(iterations):
             x[chain, :] = x_trial
             probability[chain] = probability_trial
         # Add sampled points to array
-        sampled_points[chain, i, :] = x[chain, :]
+        sampled_points[chain, iteration, :] = x[chain, :]
 
 
 # Plot results and target PDF
