@@ -38,7 +38,7 @@ sigma = 3
 
 # Run MTM
 # -------
-accepted_points = []
+sampled_points = np.empty((iterations, 2))
 x = np.array([0, 0])
 for i in range(iterations):
     # Get y_trials around x with gaussian probability
@@ -57,9 +57,8 @@ for i in range(iterations):
     rg = min(1, probabilities_y.sum() / likelihood(reference_set).sum())
     # Lets accept y with probability rg
     if rg > np.random.rand():
-        accepted_points.append(y)
         x = y
-accepted_points = np.array(accepted_points)
+    sampled_points[i, :] = x
 
 
 # Plot results and target PDF
@@ -70,7 +69,11 @@ target = target.reshape(x1.shape)
 
 plt.contour(x1, x2, target)
 plt.scatter(
-    accepted_points[:, 0], accepted_points[:, 1], s=1, label="Accepted points by MTM"
+    sampled_points[:, 0],
+    sampled_points[:, 1],
+    s=4,
+    alpha=0.2,
+    label="Sampled points by MTM",
 )
 plt.axes().set_aspect("equal")
 plt.grid()
