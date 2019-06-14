@@ -88,13 +88,16 @@ x1, x2 = np.meshgrid(x1, x1)
 target = likelihood(np.hstack((x1[:, np.newaxis], x2[:, np.newaxis])))
 target = target.reshape(x1.shape)
 
+# Define colors for every chain
+colors = dict(zip(range(n_chains), plt.cm.hot(np.linspace(0, 0.9, n_chains))))
 plt.contour(x1, x2, target)
 for chain in range(n_chains)[::-1]:
     plt.scatter(
         sampled_points[chain, :, 0],
         sampled_points[chain, :, 1],
         s=4,
-        alpha=0.2,
+        alpha=0.4,
+        color=colors[chain],
         label="T={}".format(temperatures[chain]),
     )
 plt.axes().set_aspect("equal")
