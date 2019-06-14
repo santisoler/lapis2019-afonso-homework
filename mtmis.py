@@ -63,8 +63,8 @@ for i in range(iterations):
     rg = min(1, weights.sum() / (weights.sum() - weights[index] + weight_x))
     # Lets accept y with probability rg
     if rg > np.random.rand():
-        accepted_points.append(y)
         x = y
+    accepted_points.append(x)
 accepted_points = np.array(accepted_points)
 
 
