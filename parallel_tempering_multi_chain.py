@@ -51,7 +51,7 @@ for chain in range(n_chains):
 
 # Perform Parallel Tempering
 # --------------------------
-for iteration in range(iterations):
+for iteration in range(1, iterations):
     # Attempt swap every iteration_swap iterations
     if iteration % iterations_swap == 0:
         if probability_of_swap > np.random.rand():
