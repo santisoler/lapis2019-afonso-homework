@@ -44,7 +44,7 @@ trial_distribution = multivariate_normal(
 
 # Run MTMIS
 # ---------
-accepted_points = []
+sampled_points = np.empty(n_trials, 2)
 x = np.array([0, 0])
 for i in range(iterations):
     # Draw independent y_trials given by the predefined Gaussian distribution
@@ -64,8 +64,7 @@ for i in range(iterations):
     # Lets accept y with probability rg
     if rg > np.random.rand():
         x = y
-    accepted_points.append(x)
-accepted_points = np.array(accepted_points)
+    sampled_points[i, :] = x
 
 
 # Plot results and target PDF
@@ -76,7 +75,7 @@ target = target.reshape(x1.shape)
 
 plt.contour(x1, x2, target)
 plt.scatter(
-    accepted_points[:, 0], accepted_points[:, 1], s=1, label="Accepted points by MTMIS"
+    sampled_points[:, 0], sampled_points[:, 1], s=1, label="Accepted points by MTMIS"
 )
 plt.axes().set_aspect("equal")
 plt.grid()
