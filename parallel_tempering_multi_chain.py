@@ -34,7 +34,7 @@ def likelihood(x):
 iterations = int(10e3)
 temperatures = [1, 2, 10]  # temperatures of the chains
 probability_of_swap = 0.5  # the probability to attempt a swap
-iterations_swap = 100  # attempt a swap after this number of iterations
+iterations_swap = 10  # attempt a swap after this number of iterations
 sigma = [0.1, 1, 2]
 
 # Initialize chains
@@ -52,20 +52,21 @@ for chain in range(n_chains):
 # Perform Parallel Tempering
 # --------------------------
 for iteration in range(iterations):
-    # Decide whether to swap chains or not
-    if probability_of_swap > np.random.rand():
-        # Randomly choose two chains to attempt to swap
-        i, j = np.random.choice(n_chains, 2)
-        # Compute alpha between this pair of chains
-        alpha = min(
-            1,
-            (probability[j] / probability[i]) ** (1 / temperatures[i])
-            * (probability[i] / probability[j]) ** (1 / temperatures[j]),
-        )
-        # Decide if we should swap chains i and j
-        if alpha > np.random.rand():
-            x[i, :], x[j, :] = x[j, :], x[i, :]
-            probability[i], probability[j] = (probability[j], probability[i])
+    # Attempt swap every iteration_swap iterations
+    if iteration % iterations_swap == 0:
+        if probability_of_swap > np.random.rand():
+            # Randomly choose two chains to attempt to swap
+            i, j = np.random.choice(n_chains, 2)
+            # Compute alpha between this pair of chains
+            alpha = min(
+                1,
+                (probability[j] / probability[i]) ** (1 / temperatures[i])
+                * (probability[i] / probability[j]) ** (1 / temperatures[j]),
+            )
+            # Decide if we should swap chains i and j
+            if alpha > np.random.rand():
+                x[i, :], x[j, :] = x[j, :], x[i, :]
+                probability[i], probability[j] = probability[j], probability[i]
 
     # Perform MCMC
     for chain in range(n_chains):
