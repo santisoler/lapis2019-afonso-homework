@@ -44,7 +44,7 @@ trial_distribution = multivariate_normal(
 
 # Run MTMIS
 # ---------
-sampled_points = np.empty(n_trials, 2)
+sampled_points = np.empty((iterations, 2))
 x = np.array([0, 0])
 for i in range(iterations):
     # Draw independent y_trials given by the predefined Gaussian distribution

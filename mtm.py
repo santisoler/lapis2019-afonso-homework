@@ -38,7 +38,7 @@ sigma = 3
 
 # Run MTM
 # -------
-sampled_points = np.empty(n_trials, 2)
+sampled_points = np.empty((iterations, 2))
 x = np.array([0, 0])
 for i in range(iterations):
     # Get y_trials around x with gaussian probability
