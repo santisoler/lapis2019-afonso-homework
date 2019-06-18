@@ -149,7 +149,7 @@ for chain in range(n_chains):
         axes[i].plot(
             sampled_points[chain, :, coordinate],
             color=colors[chain],
-            label="Model element={}, T={}".format(coordinate + 1, temperatures[chain]),
+            label="Component {}, T={}".format(coordinate + 1, temperatures[chain]),
         )
         axes[i].legend()
         i += 1
