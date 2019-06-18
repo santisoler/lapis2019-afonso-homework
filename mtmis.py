@@ -33,7 +33,7 @@ def likelihood(x):
 
 # Define parameters like number of iterations, number of trials, sigma for the T(x, y)
 # distribution
-iterations = int(10e3)
+iterations = int(1e4)
 n_trials = 20
 sigma = 3
 
