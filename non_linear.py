@@ -54,7 +54,8 @@ probability_of_swap = 0.5  # the probability to attempt a swap
 sigma_mcmc = [0.1, 2]  # standard deviation for the MCMC steps for each chain
 sigma_prior = 10  # standard deviation for the prior (we choose it to be big)
 sigma_likelihood = 1  # standard deviation for the likelihood (we choose it small)
-reference_model = [5, 5]  # reference model used on the prior
+reference_model = [0, 0]  # reference model used on the prior
+start_model = np.array([-5, -5])  # model from which the MCMC will start
 
 # Initialize chains
 n_chains = len(temperatures)
@@ -62,7 +63,7 @@ models = np.zeros((n_chains, 2))
 probability = np.zeros(n_chains)
 for chain in range(n_chains):
     # Proposal
-    models[chain, :] = np.array([5, 5]) + sigma_mcmc[chain] * np.random.randn(2)
+    models[chain, :] = start_model + sigma_mcmc[chain] * np.random.randn(2)
     # Compute probability of the proposed models on each chain
     probability[chain] = likelihood(
         data, forward(models[chain]), sigma_likelihood
