@@ -2,16 +2,21 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/santisoler/lapis2019-afonso-homework/master)
 
-This repo contains a Jupyter notebook that performs the tasks left as homework by Juan
+This repo contains the Jupyter notebooks that perform the tasks left as homework by Juan
 Afonso on the LAPIS 2019 School.
 
 It contains:
 
-- `Solution to Homework.ipynb`: Jupyter notebook with the solutions to the homework.
-- `data.mat`: Matlab data file containing measured GPR arrival times.
+- `01. MTMIS Multiple Try Metropolis Independent Sampler.ipynb`: Jupyter notebook that
+  implements a simple Multiple Try Metropolis Independent Sampler.
+- `02. Parallel Tempering with Multiple Chains.ipynb`: Jupyter notebook that
+  implements a simple Parallel Tempering with multiple chains.
+- `03. Non linear inverse problem.ipynb`: Jupyter notebook that
+  creates a synthetic model from a non linear forward model and perform an MCMC
+  inversion to recover the first one.
 - `environment.yml`: Configuration file for creating Anaconda environment.
 
-The `Solution to Homework.ipynb` notebook has been written by
+All notebooks have been written by
 [Santiago Soler](https://github.com/santisoler) and
 [Sebastian Correa-Otto](https://github.com/sacaliza)
 in order to pass the LAPIS 2019 assignments.
@@ -63,8 +68,8 @@ Finally, start a Jupyter Notebook kernel:
 ```
 jupyter-notebook
 ```
-This will open a new page on your web browser where you will be able to find the
-`Solutions to Homework.ipynb` notebook.
+This will open a new page on your web browser where you will be able to find all the
+notebooks.
 You'll be able to open it and run any cell.
 If you want to reproduce our results, run all cells in order.
 
