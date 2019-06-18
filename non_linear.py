@@ -107,12 +107,14 @@ for i in range(iterations):
 # ------------
 # Plot results
 # ------------
+colors = ["C0", "C1"]
 for chain in range(n_chains)[::-1]:
     plt.scatter(
         sampled_points[chain, :, 0],
         sampled_points[chain, :, 1],
         s=4,
         alpha=0.4,
+        color=colors[chain],
         label="T={}".format(temperatures[chain]),
     )
 plt.axes().set_aspect("equal")
@@ -124,7 +126,6 @@ plt.show()
 
 # Plot histograms
 # ---------------
-colors = ["C0", "C1"]
 fig, axes = plt.subplots(nrows=n_chains, ncols=2)
 for chain in range(n_chains):
     ax_row = axes[chain, :]
