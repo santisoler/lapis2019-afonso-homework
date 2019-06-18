@@ -30,7 +30,6 @@ and wait until Binder loads the notebook.
 
 You'll need a Python distribution to make it run with the following dependencies:
 - numpy
-- numba
 - scipy
 - matplotlib
 
