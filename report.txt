@@ -1,0 +1,19 @@
+Solving a simple non-linear problem using MCMC, especifically the Parallel Tempering Algorithm from exercise 2 using python.
+
+We first define and compute the forward model as x^2 + x (same example as given in exercise 3). Then we compute ss(x) for both the prior and the likelihood PDFs as Gaussian functions.
+
+Next, we generate a synthetic model and compute the data it produces from the forward model and we contaminate it with noise.
+
+For the the inversion problem we define the following parameters: number of iterations, temperature of the chains, probability to attempt a swap, standard deviation for the MCMC steps for each chain, standard deviation for the prior (we set it as a high value), standard deviation for the likelihood (we set it as a small value) and finally we set a reference model for the prior. For the next step we initialize the chains and set the proposed model, and compute the probability of the proposed models on each chain.
+
+We perform the parallel tempering algorithm, so every n iterations we set a condition for attempting a swap or not, if this is the case we compute alpha (Sambridge, 2013) and based on this probability we  do (or not) the swap.
+
+For the proper MCMC computation, for every chain we get the posterior PDF using the likelihood and the prior, and then calculate the acceptance probability, adding the accepted points to an array of sampled points.
+
+Finally we plot the results of the sampling in R2, and the histograms and trace plots for each component of every chain.
+
+We did some test runs with different parameters and had to raise T2 to better sample the possible solutions. We defined as a synthetic model (2.5,4) and as a reference model for the prior the center (0,0), we obtained 4 different solutions. By switching the prior to (1,0) T1 found only 1 solution (centered in the synthetic model) while T2 still found the same 4 solutions as obtained before.
+
+References
+
+Sambridge, M. (2013). A parallel tempering algorithm for probabilistic sampling and multimodal optimization. Geophysical Journal International, 196(1), 357-374.
