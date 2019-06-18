@@ -48,8 +48,8 @@ data = forward(model_synth) + error * np.random.randn(2)
 # Inverse problem
 # ---------------
 # Define parameters
-iterations = int(10e3)
-temperatures = [1, 10]  # temperatures of the chains
+iterations = int(1e4)
+temperatures = [1, 20]  # temperatures of the chains
 probability_of_swap = 0.5  # the probability to attempt a swap
 sigma_mcmc = [0.1, 2]  # standard deviation for the MCMC steps for each chain
 sigma_prior = 10  # standard deviation for the prior (we choose it to be big)
